@@ -31,7 +31,7 @@ void main() {
 	while (stop == false) {
 
 		// ---=== DEBUG ===--- \\
-		
+
 		if (lastPress == 'e' && collision){
 			collision = false;
 		} else if (lastPress == 'e' && !collision) {
@@ -42,11 +42,11 @@ void main() {
 		mvprintw(11,20,"Y:%i X:%i",y,x);
 		mvprintw(12,20,"lastPress:%c",lastPress);
 
-		// ---===   END  ===--- \\
-
 		drawColLine(5,5,12,14,'X');
 		drawColLine(5,5,5,14,'X');
 		drawColLine(5,5,14,5,'X');
+
+		// ---===   END  ===--- \\
 
 		attron(COLOR_PAIR(1));
 		mvprintw(y,x,"%s", playerChar);
