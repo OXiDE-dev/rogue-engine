@@ -5,13 +5,47 @@
 #include <stdbool.h>
 #include "arraycheck.h"
 
-#define arraySize 1024
+#define arraySize 2048
 
 int null = 2147483647;
 
 int colX[arraySize];
 int colY[arraySize];
 int tracker = 0;
+
+void clearCol() {
+	tracker = 0;
+	int i;
+	for (i = 0; i < arraySize; i++) {
+		colY[tracker] = 0;
+		colX[tracker] = 0;
+		tracker++;
+	}
+	tracker = 0;
+}
+
+void printCol(char character, bool printAll) {
+	int i;
+	for (i = 0; i < arraySize; i++){
+		if (colX[i] == 0 && colY[i] == 0 && !printAll){
+			return;
+		} else {
+			mvaddch(colY[i],colX[i],character);
+		}
+	}
+}
+
+void addCol(int y, int x) {
+	int i;
+	for (i = 0; i < arraySize; i++){
+		if (colX[i] == x && colY[i] == y){
+			return;
+		}
+	}
+	colY[tracker] = y;
+	colX[tracker] = x;
+	tracker++;
+}
 
 void tmvaddch(char character, int y, int x) {
 	int i;
@@ -25,11 +59,6 @@ void tmvaddch(char character, int y, int x) {
 	colX[tracker] = x;
 	tracker++;
 }
-
-	// ---=== DEBUG ===--- \\
-	//
-	//mvprintw(6,6,"%i",tracker);
-	//mvprintw(7,6,"%i",isInArr(x, colX, arraySize));
 
 bool colCheck(int y, int x){
 	if ( isInArr(x, colX, arraySize) != null && isInArr(y, colY, arraySize) != null) {

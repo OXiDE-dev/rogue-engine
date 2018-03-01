@@ -1,7 +1,8 @@
 #include <ncurses.h>
 #include <locale.h>
 #include <stdlib.h>
-#include "collision.h"
+#include <pthread.h>
+#include "mapparser.h"
 
 void main() {
 	setlocale(LC_ALL, "");
@@ -22,31 +23,14 @@ void main() {
 	int lastY = 0;
 	bool stop = false;
 
-	// ---=== DEBUG ===--- \\
+	FILE *map = fopen("maps/testmap.map", "r");
 
-	bool collision = true;
-
-	// ---===   END  ===--- \\
+	loadMapCol(map);
+	loadMapObj(map, &y, &x);
 
 	while (stop == false) {
 
-		// ---=== DEBUG ===--- \\
-
-		if (lastPress == 'e' && collision){
-			collision = false;
-		} else if (lastPress == 'e' && !collision) {
-			collision = true;
-		}
-		mvprintw(9,20,"Is Collidable:%d",colCheck(y,x));
-		mvprintw(10,20,"Collision enabled:%d",collision);
-		mvprintw(11,20,"Y:%i X:%i",y,x);
-		mvprintw(12,20,"lastPress:%c",lastPress);
-
-		drawColLine(5,5,12,14,'X');
-		drawColLine(5,5,5,14,'X');
-		drawColLine(5,5,14,5,'X');
-
-		// ---===   END  ===--- \\
+		drawMap(map);
 
 		attron(COLOR_PAIR(1));
 		mvprintw(y,x,"%s", playerChar);
@@ -78,14 +62,14 @@ void main() {
 			playerChar = "\u02C2";
 		}
 
-		if (colCheck(y,x) && collision){
+		if (colCheck(y,x)){
 			x = lastX;
 			y = lastY;
 		}
 
 		refresh();
-		erase();
+		//erase();
 	}
-
+	fclose(map);
 	endwin();
 }
