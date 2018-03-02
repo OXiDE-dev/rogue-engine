@@ -1,6 +1,6 @@
+#define _XOPEN_SOURCE_EXTENDED
 #include "collision.h"
-#include <stdio.h>
-#include <unistd.h>
+#include <wchar.h>
 
 int getMapSize(FILE *map){
 
@@ -23,8 +23,8 @@ void loadMapObj(FILE *map, int *y, int *x) {
 	int size = getMapSize(map);
 
 	for (i = 0; i < size; i++){
+		drawTracker = fgetwc(map);
 		fileX++;
-		drawTracker = fgetc(map);
 		if (drawTracker == '\n'){
 			fileX = 0;
 			fileY++;
@@ -46,8 +46,8 @@ void loadMapCol(FILE *map) {
 	int size = getMapSize(map);
 
 	for (i = 0; i < size; i++){
+		drawTracker = fgetwc(map);
 		fileX++;
-		drawTracker = fgetc(map);
 		if (drawTracker == '\n'){
 			fileX = 0;
 			fileY++;
@@ -62,25 +62,25 @@ void drawMap(FILE *map) {
 	fseek(map, 0, SEEK_SET);
 
 	int i;
-	char drawTracker;
+	wchar_t drawTracker;
 	int fileX = 0;
 	int fileY = 0;
 	int size = getMapSize(map);
 
 	for (i = 0; i < size; i++){
+		drawTracker = fgetwc(map);
 		fileX++;
-		drawTracker = fgetc(map);
-		if (drawTracker == '\n'){
+		if (drawTracker == L'\n'){
 			fileX = 0;
 			fileY++;
 		}
-		if (drawTracker == '^') {
+		if (drawTracker == L'^') {
     			fileX++;
     			i++;
     			fseek(map, 1, SEEK_CUR);
     			continue;
 		}
-		mvaddch(fileY, fileX, drawTracker);
+		mvprintw(fileY, fileX, "%lc", drawTracker);
 	}
 }
 

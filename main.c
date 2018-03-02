@@ -1,7 +1,7 @@
-#include <ncurses.h>
+//CURSES SUCKS // DO NOT REMOVE THIS COMMENT // VERY IMPORTANT//
+#define _XOPEN_SOURCE_EXTENDED
+#include <ncursesw/ncurses.h>
 #include <locale.h>
-#include <stdlib.h>
-#include <pthread.h>
 #include "mapparser.h"
 
 void main() {
@@ -23,7 +23,7 @@ void main() {
 	int lastY = 0;
 	bool stop = false;
 
-	FILE *map = fopen("maps/testmap.map", "r");
+	FILE *map = fopen("maps/testmap.map", "r, ccs=UTF-8");
 
 	loadMapCol(map);
 	loadMapObj(map, &y, &x);
@@ -45,22 +45,26 @@ void main() {
 			stop = true;
 		}
 
-		if (lastPress == 'w'){
+		if (lastPress == 'w' && playerChar == "\u02C4") {
 			y--;
+		} else if (lastPress == 'w' && playerChar != "\u02C4") {
 			playerChar = "\u02C4";
-		}
-		if (lastPress == 's'){
+    		}
+		if (lastPress == 's' && playerChar == "\u02C5") {
 			y++;
+		} else if (lastPress == 's' && playerChar != "\u02C5") {
 			playerChar = "\u02C5";
 		}
-		if (lastPress == 'd'){
+		if (lastPress == 'd' && playerChar == "\u02C3") {
 			x++;
+		} else if (lastPress == 'd' && playerChar != "\u02C3") {
 			playerChar = "\u02C3";
-		}
-		if (lastPress == 'a'){
+    		}
+		if (lastPress == 'a' && playerChar == "\u02C2") {
 			x--;
+		} else if (lastPress == 'a' && playerChar != "\u02C2") {
 			playerChar = "\u02C2";
-		}
+    		}
 
 		if (colCheck(y,x)){
 			x = lastX;
