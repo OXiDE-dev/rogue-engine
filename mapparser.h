@@ -1,4 +1,3 @@
-#define _XOPEN_SOURCE_EXTENDED
 #include "collision.h"
 #include <wchar.h>
 
@@ -16,13 +15,13 @@ void loadMapObj(FILE *map, int *y, int *x) {
 
 	fseek(map, 0, SEEK_SET);
 
-	int i;
+	long int i;
 	char drawTracker;
-	int fileX = 0;
-	int fileY = 0;
-	int size = getMapSize(map);
+	long int fileX = 0;
+	long int fileY = 0;
+	long int size = getMapSize(map);
 
-	for (i = 0; i < size; i++){
+	while (feof(map) != 1) {
 		drawTracker = fgetwc(map);
 		fileX++;
 		if (drawTracker == '\n'){
@@ -39,13 +38,11 @@ void loadMapCol(FILE *map) {
 
 	fseek(map, 0, SEEK_SET);
 
-	int i;
 	char drawTracker;
-	int fileX = 0;
-	int fileY = 0;
-	int size = getMapSize(map);
+	long int fileX = 0;
+	long int fileY = 0;
 
-	for (i = 0; i < size; i++){
+	while (feof(map) != 1) {
 		drawTracker = fgetwc(map);
 		fileX++;
 		if (drawTracker == '\n'){
@@ -57,15 +54,15 @@ void loadMapCol(FILE *map) {
 	}
 }
 
-void drawMap(FILE *map) {
+void drawMap(FILE *map, long int camOffsetY, long int camOffsetX) {
 
 	fseek(map, 0, SEEK_SET);
 
-	int i;
+	long int i;
 	wchar_t drawTracker;
-	int fileX = 0;
-	int fileY = 0;
-	int size = getMapSize(map);
+	long int fileX = 0;
+	long int fileY = 0;
+	long int size = getMapSize(map);
 
 	for (i = 0; i < size; i++){
 		drawTracker = fgetwc(map);
@@ -75,12 +72,12 @@ void drawMap(FILE *map) {
 			fileY++;
 		}
 		if (drawTracker == L'^') {
-    			fileX++;
-    			i++;
-    			fseek(map, 1, SEEK_CUR);
-    			continue;
+			fileX++;
+			i++;
+			fseek(map, 1, SEEK_CUR);
+			continue;
 		}
-		mvprintw(fileY, fileX, "%lc", drawTracker);
+		mvprintw(fileY + camOffsetY, fileX + camOffsetX, "%lc", drawTracker);
 	}
 }
 
