@@ -1,8 +1,7 @@
-int isInArr(int val, int *arr, int size){
-    int i;
-    for (i=0; i < size; i++) {
-        if (arr[i] == val)
-            return i;
-    }
-    return 2147483647;
-}
+#ifndef arraycheck_h_INCLUDED
+#define arraycheck_h_INCLUDED
+
+int isInArr(int val, int *arr, int size);
+
+#endif // arraycheck_h_INCLUDED
+
