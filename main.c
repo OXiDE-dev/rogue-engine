@@ -2,9 +2,9 @@
 #define _XOPEN_SOURCE_EXTENDED
 #include <ncursesw/ncurses.h>
 #include <locale.h>
-#include "mapparser.h"
-#include "stats.h"
-#include "collision.h"
+#include "headers/mapparser.h"
+#include "headers/stats.h"
+#include "headers/collision.h"
 
 void main() {
 
@@ -18,8 +18,6 @@ void main() {
 
 	init_pair(1,COLOR_YELLOW,COLOR_BLACK);
 
-	char lastPress;
-	char *playerChar = "@";
 	int x = 20;
 	int y = 20;
 	int lastX = 0;
@@ -31,6 +29,8 @@ void main() {
 	int lastWorldOffsetY = 0;
 	int lastWorldOffsetX = 0;
 	bool stop = false;
+	char lastPress;
+	char *playerChar = "@";
 
 	FILE *map = fopen("maps/testmap.map", "r, ccs=UTF-8");
 
@@ -50,7 +50,6 @@ void main() {
 		mvaddstr(y,x, playerChar);
 		attroff(COLOR_PAIR(1));
 
-
 		lastX = x;
 		lastY = y;
 		lastWorldOffsetX = worldOffsetX;
@@ -67,7 +66,14 @@ void main() {
 			lastPress = ' ';
 			while (lastPress != 'q' && lastPress != 'e') {
 				lastPress = getch();
+				erase();
 				drawStatWin();
+				if (lastPress == 'w') {
+					hp[0]++;
+				}
+				if (lastPress == 's') {
+					hp[0]--;
+				}
 			}
 			timeout(30);
 		}

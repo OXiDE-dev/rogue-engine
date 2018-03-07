@@ -1,4 +1,6 @@
-#include "collision.h"
+#include "headers/collision.h"
+
+	//TODO: clean this
 
 int null = 2147483647;
 

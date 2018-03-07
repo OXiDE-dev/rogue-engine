@@ -1,4 +1,6 @@
-#include "mapparser.h"
+#include "headers/mapparser.h"
+
+		// TODO: upgrade all the functions to use the new system
 
 wchar_t loadedMap[mapSizeY][mapSizeX];
 
